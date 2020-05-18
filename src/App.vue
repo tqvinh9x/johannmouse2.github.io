@@ -1,24 +1,24 @@
 <template>
 <div id="app">
-    <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top justify-content-center">
+    <nav id="title-bar" class="navbar navbar-expand-md navbar-dark bg-dark fixed-top justify-content-center">
         <a class="navbar-brand">{{ msg }}</a>
     </nav>
     <img id="logo" src="./assets/logo.png" width="100px" height="100px">
     <table align="center">
-    <nav aria-label="...">
-  <ul class="pagination">
-    <li class="page-item" :class="{disabled: pagePreviuosDisable}">
-      <a class="page-link" @click="showPage(currentPage-1)">Previous</a>
-    </li>
-    <li v-for="(page,index) in listPage" :key="index" class="page-item">
-        <a v-if="checkActive(page)" class="page-link isCurrent" @click="showPage(page)">{{ page }}</a>
-        <a v-else class="page-link" @click="showPage(page)">{{ page }}</a>
-        </li>
-    <li class="page-item" :class="{disabled: pageNextDisable}">
-      <a class="page-link" @click="showPage(currentPage+1)">Next</a>
-    </li>
-  </ul>
-</nav>
+        <nav aria-label="...">
+            <ul class="pagination">
+                <li class="page-item" :class="{disabled: pagePreviuosDisable}">
+                   <a class="page-link border pagingHover" @click="showPage(currentPage-1)"><strong>Previous</strong></a>
+                </li>
+                <li v-for="(page,index) in listPage" :key="index" class="page-item">
+                    <a v-if="checkActive(page)" class="page-link isCurrent rounded border pagingHover" @click="showPage(page)"><strong>{{ page }}</strong></a>
+                    <a v-else class="page-link rounded border pagingHover" @click="showPage(page)"><strong>{{ page }}</strong></a>
+                </li>
+                <li class="page-item" :class="{disabled: pageNextDisable}">
+                    <a class="page-link border pagingHover" @click="showPage(currentPage+1)"><strong>Next</strong></a>
+                </li>
+            </ul>
+        </nav>
     </table>
     <vue-picture-swipe :items="images"></vue-picture-swipe>
 
@@ -36,7 +36,7 @@ export default {
         return {
             msg: '10,000 images from https://thispersondoesnotexist.com/',
             images: [],
-            listPage: [1,2,3,4,5,6,7,8,9,10],
+            listPage: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
             currentPage: 1,
             pagePreviuosDisable: true,
             pageNextDisable: false
@@ -53,25 +53,27 @@ export default {
         }
     },
     methods: {
-        showPage(page){
-            var startIndex=(page-1)*1000+1;
-            this.images=[];
-            this.currentPage=page;
-            if(page==this.listPage[this.listPage.length-1]) this.pageNextDisable=true;
-            else this.pageNextDisable=false;
-            if(page==1) this.pagePreviuosDisable=true;
-            else this.pagePreviuosDisable=false;
-            for (var i = startIndex; i <= startIndex+999; i++) {
-            this.images.push({
-                src: '../faces/dir'+page+'/image' + i + '.jpg',
-                thumbnail: '../faces/dir'+page+'_thumbnail/image' + i + '.jpg',
-                w: 900,
-                h: 900
-            })
-        }
+        showPage(page) {
+            if(page!=this.currentPage){
+                var startIndex = (page - 1) * 1000 + 1;
+            this.images = [];
+            this.currentPage = page;
+            if (page == this.listPage[this.listPage.length - 1]) this.pageNextDisable = true;
+            else this.pageNextDisable = false;
+            if (page == 1) this.pagePreviuosDisable = true;
+            else this.pagePreviuosDisable = false;
+            for (var i = startIndex; i <= startIndex + 999; i++) {
+                this.images.push({
+                    src: '../faces/dir' + page + '/image' + i + '.jpg',
+                    thumbnail: '../faces/dir' + page + '_thumbnail/image' + i + '.jpg',
+                    w: 900,
+                    h: 900
+                })
+            }
+            }
         },
-        checkActive(page){
-            return page==this.currentPage;
+        checkActive(page) {
+            return page == this.currentPage;
         }
     }
 }
@@ -82,6 +84,7 @@ export default {
 @import 'https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js';
 @import 'https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css';
 @import 'https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js';
+
 #app {
     font-family: 'Avenir', Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
@@ -110,18 +113,32 @@ a {
     color: #42b983;
 }
 
-.isCurrent{
+.isCurrent {
     color: white;
     background-color: #007BFF;
 }
 
-.pswp__img{
+.pswp__img {
     border-radius: 5px;
 }
-img:hover:not(#logo):not(.pswp__img){
-  -ms-transform: scale(1.5); /* IE 9 */
-  -webkit-transform: scale(1.5); /* Safari 3-8 */
-  transform: scale(1.5); 
-  transition: .3s ease;
+
+img:hover:not(#logo):not(.pswp__img) {
+    -ms-transform: scale(1.5);
+    /* IE 9 */
+    -webkit-transform: scale(1.5);
+    /* Safari 3-8 */
+    transform: scale(1.5);
+    transition: .3s ease;
+}
+
+.pagingHover:hover {
+    cursor: pointer;
+    background-color: #007BFF;
+    -ms-transform: scale(1.5);
+    /* IE 9 */
+    -webkit-transform: scale(1.5);
+    /* Safari 3-8 */
+    transform: scale(1.25);
+    transition: .3s ease;
 }
 </style>
